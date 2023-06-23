@@ -43,8 +43,8 @@ def f(x):
     return -10 * np.ones(x.size)
 
 
-p, a, b = 4, -1, 1
-ne = 8
+p, a, b = 3, -1, 1
+ne = 80
 x = np.linspace(a, b, ne + 1)
 
 v = u_init(x)            # testing function
