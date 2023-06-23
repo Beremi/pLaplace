@@ -44,7 +44,7 @@ def f(x):
 
 
 p, a, b = 3, -1, 1
-ne = 80
+ne = 10
 x = np.linspace(a, b, ne + 1)
 
 v = u_init(x)            # testing function
