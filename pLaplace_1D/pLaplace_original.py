@@ -13,7 +13,6 @@ def time_function(f, *args):
 
 
 def energy(v_internal, x, v, p):
-
     u_a = v[0]                # v at the left end
     u_b = v[-1]               # v at the right end
     h = x[1] - x[0]             # mesh size
