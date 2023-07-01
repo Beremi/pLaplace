@@ -117,6 +117,9 @@ def trust_region(f, df, ddf, x0, c0=1.0, tolf=1e-6, tolg=1e-3, maxit=1000, verbo
             xn = x + h
             g = df(xn)
             H = ddf(xn)
+            it += 1
+            if verbose:
+                print(f"it={it}, f={fx}, c={c}, ||g||={np.linalg.norm(g)}")
         else:
             xn = x
             fxn = fx
@@ -129,10 +132,6 @@ def trust_region(f, df, ddf, x0, c0=1.0, tolf=1e-6, tolg=1e-3, maxit=1000, verbo
 
         x = xn
         fx = fxn
-
-        it += 1
-        if verbose:
-            print(f"it={it}, f={fx}, c={c}, ||g||={np.linalg.norm(g)}")
 
         if it > maxit:
             print("Maximum number of iterations reached")
@@ -453,7 +452,7 @@ def trust_region_quasi(f, x0, c0=1.0, tolf=1e-6, tolg=1e-3, h_diff=1e-3, maxit=1
 
 
 @timer_decorator
-def adam(f, x0, alpha=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8, maxit=1000, h_diff=1e-6):
+def adam(f, df, x0, alpha=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8, maxit=1000):
     """
     Metoda Adam pro minimalizaci funkce
 
@@ -461,6 +460,8 @@ def adam(f, x0, alpha=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8, maxit=1000, h
     ----------
     f : funkce
         Optimalizovaná funkce.
+    df : funkce
+        Gradient optimalizované funkce.
     x0 : numpy.ndarray
         Počáteční odhad minima.
     alpha : float
@@ -481,16 +482,6 @@ def adam(f, x0, alpha=0.001, beta1=0.9, beta2=0.999, epsilon=1e-8, maxit=1000, h
     it : int
         Počet iterací.
     """
-    def df(xx):
-        x = np.array(xx)
-        n = len(x)
-        df_array = np.zeros(n)
-        fx = f(x)
-        for i in range(n):
-            x[i] += h_diff
-            df_array[i] = (f(x) - fx) / h_diff
-            x[i] -= h_diff
-        return df_array
     x = x0
     m = 0
     v = 0
