@@ -1,2 +1,10 @@
 pLaplace_1D/__pycache__/my_solvers.cpython-311.pyc
 pLaplace_1D/__pycache__/my_timer.cpython-311.pyc
+Michal_pLaplace/descentDirection.m
+Michal_pLaplace/functionalValue.m
+Michal_pLaplace/gradientMethod.m
+Michal_pLaplace/main_script.m
+Michal_pLaplace/mkp1d.m
+Michal_pLaplace/qnorm.m
+Michal_pLaplace/zlatyrez.m
+pLaplace_1D/__pycache__/sparsejac.cpython-311.pyc
