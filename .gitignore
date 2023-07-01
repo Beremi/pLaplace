@@ -1,2 +1,17 @@
 pLaplace_1D/__pycache__/my_solvers.cpython-311.pyc
 pLaplace_1D/__pycache__/my_timer.cpython-311.pyc
+Michal_pLaplace/descentDirection.m
+Michal_pLaplace/functionalValue.m
+Michal_pLaplace/gradientMethod.m
+Michal_pLaplace/main_script.m
+Michal_pLaplace/mkp1d.m
+Michal_pLaplace/qnorm.m
+Michal_pLaplace/zlatyrez.m
+pLaplace_1D/__pycache__/sparsejac.cpython-311.pyc
+pLaplace_1D/__pycache__/my_solvers.cpython-39.pyc
+pLaplace_1D/__pycache__/my_solvers.cpython-310.pyc
+pLaplace_1D/__pycache__/my_timer.cpython-39.pyc
+pLaplace_1D/__pycache__/my_timer.cpython-310.pyc
+pLaplace_1D/.ipynb_checkpoints/pLaplace_jax-checkpoint.ipynb
+pLaplace_1D/.ipynb_checkpoints/pLaplace_numba-checkpoint.ipynb
+pLaplace_1D/.ipynb_checkpoints/pLaplace_tests-checkpoint.ipynb
