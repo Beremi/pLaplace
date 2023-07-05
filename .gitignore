@@ -15,3 +15,8 @@ pLaplace_1D/__pycache__/my_timer.cpython-310.pyc
 pLaplace_1D/.ipynb_checkpoints/pLaplace_jax-checkpoint.ipynb
 pLaplace_1D/.ipynb_checkpoints/pLaplace_numba-checkpoint.ipynb
 pLaplace_1D/.ipynb_checkpoints/pLaplace_tests-checkpoint.ipynb
+pLaplace_1D/__pycache__/energy.cpython-311.pyc
+pLaplace_1D/__pycache__/test_runner_1D.cpython-311.pyc
+tools/__pycache__/hessian_tools.cpython-311.pyc
+tools/__pycache__/minimizers.cpython-311.pyc
+tools/__pycache__/sparsejac.cpython-311.pyc
