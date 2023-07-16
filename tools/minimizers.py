@@ -627,6 +627,98 @@ def trust_region2(f, df, ddf, x0, c0=1.0, c_min=0.0, tolf=1e-6, tolg=1e-3, maxit
     return res
 
 
+def trust_region3(f, df, ddf, x0, c0=1.0, c_min=0.0, tolf=1e-6, tolg=1e-3, maxit=1000, verbose=False):
+    """
+    Newton's method for function minimization
+
+    Parameters
+    ----------
+    f : function
+        The objective function to be minimized.
+    df : function
+        The gradient of the objective function.
+    ddf : function
+        The Hessian of the objective function.
+    x0 : numpy.ndarray
+        The initial guess for the minimum.
+    c0 : float
+        The initial trust region size.
+    tolf : float
+        The tolerance for the stopping condition for function values.
+    tolg : float
+        The tolerance for the stopping condition for gradient values.
+    maxit : int
+        The maximum number of iterations.
+    verbose : bool
+        If True, print iteration information.
+
+    Returns
+    -------
+    res : OptimizeResult from scipy.optimize._optimize
+        The optimization result class with the following fields defined:
+        x : ndarray
+            The solution of the optimization.
+        fun : float
+            The value of the objective function at the solution.
+        nit : int
+            The number of iterations.
+        message : str
+            A string describing the cause of the termination.
+    """
+
+    x = x0
+    c = c0
+    inner_tol = 1e-1
+    fx = f(x)
+    m = fx
+    it = 0
+    message = "Maximum number of iterations reached"
+
+    for _ in range(maxit):
+        it += 1
+
+        # Gradient and Hessian
+        g = df(x)
+        H = ddf(x)
+        normg = np.linalg.norm(g)
+
+        if normg < tolg:
+            message = "Stopping condition for g is satisfied"
+            break
+
+        # Newton's step
+        h = -H.solve_trust(g, c)
+
+        _, m = m, fx + g @ h + 0.5 * H.norm(h, c)
+
+        a, nitf = zlatyrez(f, 0, 1, x, h, np.max([inner_tol, tolf]))
+
+        # Update x and function value
+        x = x + a * h
+        fxn, fx = fx, f(x)
+
+        rho = (fxn - fx) / np.max([fxn - m, fxn - fx])
+
+        if verbose:
+            print(f"it={it}, f={fx}, fstep = {fxn - fx:.5e}, ||g||={normg:.5f}, nitf={nitf}, a={a:.5e}, rho={rho:.5e}, c={c:.5e}")
+
+        # Adjust the size of the trust region
+        if rho > 0.75:
+            c = max(c / 2, c_min)
+        elif rho < 0.1:
+            c = max(c * 2, c_min)
+
+        # check stopping condition for f
+        inner_tol = np.min([inner_tol, np.abs(fx - fxn) * 1e-1])
+        if np.abs(fx - fxn) < tolf:
+            message = "Stopping condition for f is satisfied"
+            break
+
+    res = OptimizeResult(x=x, fun=fx, nit=it, message=message)
+
+    return res
+
+
 def bfgs_trust(f, df, x0, c0=1.0, tolf=1e-6, tolg=1e-3, maxit=1000, verbose=False):
     """
     Newton's method for function minimization
