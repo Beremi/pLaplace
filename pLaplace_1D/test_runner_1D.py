@@ -55,7 +55,13 @@ def create_tables(data, display_table="latex"):
     combined_df2 = pd.DataFrame()
 
     for d in data:
-        solver_id = str(d['solver_id'])  # Use string of tuple as index
+        my_tuple = d['solver_id']
+        # Remove quotes and join the elements with '/'
+        my_tuple_str = '/'.join(str(item) for item in my_tuple)
+
+        # Replace underscores with spaces
+        my_tuple_str = my_tuple_str.replace('_', ' ')
+        solver_id = str(my_tuple_str)  # Use string of tuple as index
         size = d['size']
 
         # Add values to respective DataFrames
