@@ -24,3 +24,9 @@ pLaplace_1D/__pycache__/energy_jax.cpython-311.pyc
 pLaplace_1D/__pycache__/energy_numba.cpython-311.pyc
 pLaplace_1D/__pycache__/energy_numpy.cpython-311.pyc
 pLaplace_1D/__pycache__/suplement_sparse_matrices.cpython-311.pyc
+pLaplace_1D/__pycache__/energy_numba.cpython-38.pyc
+pLaplace_1D/__pycache__/energy_numpy.cpython-38.pyc
+pLaplace_1D/__pycache__/suplement_sparse_matrices.cpython-38.pyc
+pLaplace_1D/__pycache__/test_runner_1D.cpython-38.pyc
+tools/__pycache__/hessian_tools.cpython-38.pyc
+tools/__pycache__/minimizers.cpython-38.pyc
