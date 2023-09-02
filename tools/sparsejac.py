@@ -2,12 +2,14 @@
 
 from typing import Callable, Tuple
 
+import numpy as np
 import jax
 import jax.experimental.sparse as jsparse
 import jax.numpy as jnp
 import networkx
 import numpy as onp
 import scipy.sparse as ssparse
+import igraph
 
 
 # Coloring strategy employed to find structurally-independent output elements.
@@ -74,7 +76,7 @@ def jacrev(
 
     projection_matrix = (
         jnp.arange(ncolors)[:, jnp.newaxis] == output_coloring[jnp.newaxis, :])
-    projection_matrix = projection_matrix.astype(jnp.float32)
+    projection_matrix = projection_matrix.astype(jnp.float64)
 
     def jacrev_fn(*args):
         x = args[argnums]
@@ -173,7 +175,7 @@ def jacfwd(
 
     basis = (
         jnp.arange(ncolors)[jnp.newaxis, :] == input_coloring[:, jnp.newaxis])
-    basis = basis.astype(jnp.float32)
+    basis = basis.astype(jnp.float64)
 
     def jacfwd_fn(*args):
         x = args[argnums]
@@ -259,12 +261,19 @@ def _greedy_color(
     Returns:
       A tuple containing the coloring vector and the number of colors used.
     """
-    assert connectivity.ndim == 2
-    assert connectivity.shape[0] == connectivity.shape[1]
-    graph = networkx.from_scipy_sparse_array(connectivity)
-    coloring_dict = networkx.algorithms.coloring.greedy_color(graph, strategy)
-    indices, colors = list(zip(*coloring_dict.items()))
-    coloring = onp.asarray(colors)[onp.argsort(indices)]
+
+    n = connectivity.shape[0]
+    rows, cols = np.nonzero(connectivity)  # type: ignore
+    edges = np.vstack((rows, cols)).T
+    g = igraph.Graph()
+    g.add_vertices(n)
+    g.add_edges(edges)
+    coloring = g.vertex_coloring_greedy()
+
+    # graph = _convert_to_graph_from_edges(connectivity)
+    # coloring_dict = networkx.algorithms.coloring.greedy_color(graph, strategy)
+    # indices, colors = list(zip(*coloring_dict.items()))
+    # coloring = onp.asarray(colors)[onp.argsort(indices)]
     return coloring, onp.unique(coloring).size
 
 
@@ -316,3 +325,14 @@ def _expand_jacfwd_jac(
     compressed_index = (row, input_coloring[col])
     data = compressed_jac[compressed_index]
     return jsparse.BCOO((data, sparsity.indices), shape=sparsity.shape)
+
+
+def _convert_to_graph_from_edges(matrix):
+    # Use numpy's nonzero function to get the coordinates of non-zero entries in the matrix
+    rows, cols = np.nonzero(matrix)
+    edges = list(zip(rows, cols))
+
+    # Create a NetworkX graph from the edges
+    graph = networkx.Graph()
+    graph.add_edges_from(edges)
+    return graph
