@@ -204,7 +204,7 @@ def test_runner_2D(list_of_tests):
                                                                         method='dogleg', tol=1e-6, options={'maxiter': 1000})
                 elif minimizer == "scipy_Newton-CG_hessp":
                     def minimizer_func(f, df, ddf, x0): return minimize(f, x0, jac=df, hessp=MyHessP(ddf.ddf),
-                                                                        method='Newton-CG', tol=1e-6, options={'maxiter': 1000, 'xtol': 1e-9})
+                                                                        method='Newton-CG', tol=1e-6, options={'maxiter': 1000, 'xtol': 1e-5})
                 elif minimizer == "scipy_trust-krylov_hessp":
                     def minimizer_func(f, df, ddf, x0): return minimize(f, x0, jac=df, hessp=MyHessP(ddf.ddf),
                                                                         method='trust-krylov', tol=1e-6, options={'maxiter': 1000})
