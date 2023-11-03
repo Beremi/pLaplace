@@ -507,3 +507,6 @@ HyperElasticity_3D/figs/fig_466.png
 HyperElasticity_3D/figs/fig_467.png
 HyperElasticity_3D/figs/fig_468.png
 HyperElasticity_3D/figs/fig_469.png
+pLaplace_1D/__pycache__/test_runner_1D.cpython-311-pytest-7.4.3.pyc
+pLaplace_2D/__pycache__/test_runner_2D.cpython-311-pytest-7.4.3.pyc
+HyperElasticity_3D/__pycache__/mesh.cpython-311.pyc
