@@ -69,7 +69,8 @@ class Energy:
     def __init__(self, mesh: Mesh, alpha: float = 1.0):
         self.alpha = alpha
         self.all_alphas = []
-        self.u0 = None
+        self.u0 = None+
+        self.mesh = mesh
         self.change_problem(1.0, mesh)
 
     def change_problem(self, rotation: float, mesh: Mesh | None = None):
