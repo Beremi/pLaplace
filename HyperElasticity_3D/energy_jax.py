@@ -66,14 +66,29 @@ class HessGeneratorSparseJax(hessian_tools.HessGenerator):
 
 
 class Energy:
-    def __init__(self, mesh: Mesh, alpha: float = 1.0):
-        self.alpha = alpha
-        self.all_alphas = []
-        self.u0 = None+
+    def __init__(self, mesh: Mesh, alpha_step: float = 1.0):
+        self.alpha = 0.0
+        self.all_alphas = [self.alpha]
+        self.alpha_step = alpha_step
+        self.u0_previous = jnp.array(mesh.nodes2coord, dtype=jnp.float64).ravel()
         self.mesh = mesh
-        self.change_problem(1.0, mesh)
+        self.change_problem(mesh)
 
-    def change_problem(self, rotation: float, mesh: Mesh | None = None):
+    def apply_rotation(self, alpha_step: float = 0):
+        if alpha_step != 0:
+            self.alpha_step = alpha_step
+            
+        self.alpha += self.alpha_step
+        self.all_alphas.append(self.alpha)
+        u0 = jnp.array(data.nodes2coord, dtype=jnp.float64).ravel()
+        nodes = np.where(data.nodes2coord[:, 0] == data.lx)[0]
+        u0 = u0.at[nodes * 3 + 1].set(np.cos(alpha) * data.nodes2coord[nodes, 1] +
+                                      np.sin(alpha) * data.nodes2coord[nodes, 2])
+        u0 = u0.at[nodes * 3 + 2].set(-np.sin(alpha) * data.nodes2coord[nodes, 1] +
+                                      np.cos(alpha) * data.nodes2coord[nodes, 2])
+        
+        
+    def change_problem(self, mesh: Mesh | None = None):
         alpha_current = rotation * self.alpha
         self.all_alphas.append(alpha_current)
         if mesh is None:
