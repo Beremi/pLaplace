@@ -269,6 +269,7 @@ def sfd(x, grad, Hstr, group, dx):
     new_cols_singe_array = np.concatenate(all_new_cols + all_new_rows)
     new_data_singe_array = np.concatenate(all_new_data + all_new_data) / 2  # type: ignore
     H = sp.csc_matrix((new_data_singe_array, (new_rows_singe_array, new_cols_singe_array)),  # type: ignore
-                      shape=(m, n))
+                      shape=(m, n), copy=True)
     # print(alpha)
+    H.sum_duplicates()
     return H

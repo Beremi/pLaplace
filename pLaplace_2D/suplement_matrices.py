@@ -20,7 +20,9 @@ def mass_matrix(mesh: Mesh2D):
     col_idx = np.concatenate(col_idx)
     values = np.concatenate(values)
 
-    return csr_matrix((values, (row_idx, col_idx)), shape=(mesh.nodes.shape[0], mesh.nodes.shape[0]))
+    res = csr_matrix((values, (row_idx, col_idx)), shape=(mesh.nodes.shape[0], mesh.nodes.shape[0]))
+    res.sum_duplicates()
+    return res
 
 
 def stiffness_matrix(mesh: Mesh2D):
@@ -40,7 +42,9 @@ def stiffness_matrix(mesh: Mesh2D):
     col_idx = np.concatenate(col_idx)
     values = np.concatenate(values)
 
-    return csr_matrix((values, (row_idx, col_idx)), shape=(mesh.nodes.shape[0], mesh.nodes.shape[0]))
+    res = csr_matrix((values, (row_idx, col_idx)), shape=(mesh.nodes.shape[0], mesh.nodes.shape[0]))
+    res.sum_duplicates()
+    return res
 
 
 def incidence_matrix(mesh: Mesh2D):
@@ -57,4 +61,6 @@ def incidence_matrix(mesh: Mesh2D):
     col_idx = np.concatenate(col_idx)
     values = np.concatenate(values)
 
-    return csr_matrix((values, (row_idx, col_idx)), shape=(mesh.nodes.shape[0], mesh.nodes.shape[0]))
+    res = csr_matrix((values, (row_idx, col_idx)), shape=(mesh.nodes.shape[0], mesh.nodes.shape[0]))
+    res.sum_duplicates()
+    return res
